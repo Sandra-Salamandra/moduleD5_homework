@@ -63,7 +63,7 @@ class Post(models.Model):
         return self.text[0:123] + '...'
     
     def __str__(self):
-        return f'{self.name} {self.quantity}'
+        return f'title: {self.title} || text: {self.text} || dateCreation: {self.dateCreation}'
  
     def get_absolute_url(self): # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
         return f'/news/{self.id}' 
@@ -72,6 +72,9 @@ class Post(models.Model):
 class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
     categoryThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f'{self.categoryThrough}'
 
 
 class Comment(models.Model):
@@ -82,7 +85,7 @@ class Comment(models.Model):
     rating = models.SmallIntegerField(default=0)
 
     def __str__(self):
-        return self.commentUser.username
+        return f'text: {self.text} || commentUser: {self.commentUser}'
     
     # Методы like() и dislike() в моделях Comment и Post увеличивают/уменьшают рейтинг на единицу.
     def like(self):
